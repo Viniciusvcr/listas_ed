@@ -256,6 +256,18 @@ void concatenar(lista* A, lista* B, lista* concat){ //exercício 10 - LISTA PROV
 	}
 }
 
+void merge(lista* L1, lista* L2, lista* L3){ //exercício 11 - LISTA PROVA
+	lista buffer;
+	item retorno;
+
+	inicializa(&buffer);
+	concatenar(L1, L2, &buffer);
+	while(!vazia(&buffer)){
+		remove_chave(&buffer, menor_chave(&buffer), &retorno);
+		insere_fim(L3, retorno);
+	}
+}
+
 void clear_screen(){
 	system("clear");
 }
@@ -271,10 +283,13 @@ int main(){
 	celula *search;
 	item insere, removido;
 
+	inicializa(&A);
+	inicializa(&B);
+	inicializa(&C);
 	do{
 		fflush(stdin);
 		//clear_screen();
-		cout << "[01] Inicializar lista" << endl;
+		cout << "[01] Inserir no fim em B" << endl;
 		cout << "[02] Verificar se a lista esta vazia" << endl;
 		cout << "[03] Inserir elemento no inicio" << endl;
 		cout << "[04] Inserir elemento no fim" << endl;
@@ -294,12 +309,16 @@ int main(){
 		cout << "[18] Copiar lista" << endl;
 		cout << "[19] Copiar ordenado" << endl;
 		cout << "[20] Concatenar" << endl;
+		cout << "[21] Merge" << endl;
 		cin >> opt;
 
 		switch(opt){
 			case 1:
-				inicializa(&A);
-				cout << "LISTA INICIALIZADA!" << endl;
+				clear_screen();
+				cout << "Digite o elemento que deseja inserir: ";
+				cin >> insere.chave;
+				insere_fim(&B, insere);
+				cout << "ELEMENTO INSERIDO COM SUCESSO" << endl;
 				pause_screen();
 			break;
 
@@ -426,14 +445,12 @@ int main(){
 			break;
 
 			case 18:
-				inicializa(&B);
 				copiar(&A, &B);
 				print_lista(&B);
 				pause_screen();
 			break;
 
 			case 19:
-				inicializa(&B);
 				copiar_ordenado(&A, &B);
 				cout << "Lista A: ";
 				print_lista(&A);
@@ -443,8 +460,14 @@ int main(){
 			break;
 
 			case 20:
-				inicializa(&C);
 				concatenar(&A, &B, &C);
+				print_lista(&C);
+				pause_screen();
+			break;
+
+			case 21:
+				merge(&A, &B, &C);
+				cout << "MERGE: ";
 				print_lista(&C);
 				pause_screen();
 			break;
