@@ -258,13 +258,31 @@ void exclui_lista(lista* l){ //exercício 8
 	inicializa(l);
 }
 
+int crescente(lista* l){ //exercício 1a - LISTA PROVA
+	celula *aux, *sucessor;
+
+	if(!vazia(l)){
+		aux = l->primeiro;
+		sucessor = aux->prox;
+		while(sucessor != NULL){
+			if(aux->item.chave < sucessor->item.chave){
+				aux = aux->prox;
+				sucessor = sucessor->prox;
+			}
+			else return 0;
+		}
+		return 1;
+	}
+	return 0;
+}
+
 void clear_screen(){
-	system("cls");
+	system("clear");
 }
 
 void pause_screen(){
 	cout << endl;
-	system("pause");
+	//system("pause");
 }
 
 int a_or_b(){
@@ -281,7 +299,7 @@ int main(){
 
 	do{
 		fflush(stdin);
-		clear_screen();
+		//clear_screen();
 		cout << "[01] Inicializar lista A e B" << endl;
 		cout << "[02] Verificar se uma lista esta vazia" << endl;
 		cout << "[03] Inserir no inicio de uma lista" << endl;
@@ -298,6 +316,7 @@ int main(){
 		cout << "[14] Verificar a quantidade de elementos da lista" << endl;
 		cout << "[15] Excluir lista" << endl;
 		cout << "[16] Inserir ordenado" << endl;
+		cout << "[17] Crescente?" << endl;
 		cin >> opt;
 		switch(opt){
 			case 1:
@@ -450,6 +469,9 @@ int main(){
 				if(!a_or_b()) insere_ordenado(&A, x);
 				else insere_ordenado(&B, x);
 			break;
+
+			case 17:
+				cout << crescente(&A) << endl << endl;
 		}
 	}while(opt != 0);
 }

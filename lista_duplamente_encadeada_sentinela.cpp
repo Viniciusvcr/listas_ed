@@ -137,7 +137,7 @@ int remove_pos(lista* l, int pos, item* retorno){ //exercício 3
 	return 0;
 }
 
-int tamanho_lista(lista* l){ //exercício 2
+int tamanho_lista(lista* l){ //exercício 2 - LISTA PROVA
 	celula *aux = l->primeiro->prox;
 	int cont = 0;
 
@@ -162,25 +162,134 @@ void rotaciona_direita(lista *l, int pos){ //exercício 4
 	}
 }
 
+int crescente(lista* l){ //exercício 1b - LISTA PROVA
+	celula *aux = l->primeiro->prox; 
+	celula *sucessor = aux->prox;
+
+	while(sucessor != l->primeiro){
+		if(aux->item.chave < sucessor->item.chave){
+			aux = aux->prox;
+			sucessor = sucessor->prox;
+		}
+		else return 0;
+	}
+	return 1; // Se a lista estiver vazia, o retorno é verdadeiro
+}
+
+int maior_chave(lista* l){ // exercicio 3 - LISTA PROVA
+	celula *aux = l->primeiro->prox;
+	int maior;
+
+	if(!vazia(l)){
+		maior = aux->item.chave;
+		while(aux != l->primeiro){
+			if(aux->item.chave > maior)
+				maior = aux->item.chave;
+			aux = aux->prox;
+		}
+		return maior;
+	}
+	return -1;
+}
+
+int menor_chave(lista* l){ // exercício 4 - LISTA PROVA
+	celula *aux = l->primeiro->prox;
+	int menor;
+
+	if(!vazia(l)){
+		menor = aux->item.chave;
+		while(aux != l->primeiro){
+			if(aux->item.chave < menor)
+				menor = aux->item.chave;
+			aux = aux->prox;
+		}
+		return menor;
+	}
+	return -1;
+}
+
+int soma_lista(lista* l){ //exercício 5 - LISTA PROVA
+	celula *aux = l->primeiro->prox;
+	int soma = 0;
+
+	while(aux != l->primeiro){
+		soma += aux->item.chave;
+		aux = aux->prox;
+	}
+	return soma; 
+}
+
+float media(lista* l){ //exercício 7 - LISTA PROVA
+	float soma = soma_lista(l);
+	float tam = tamanho_lista(l);
+	return soma/tam;
+}
+
+void copiar(lista* l, lista* copia){ //exercício 8 - LISTA PROVA
+	celula *aux = l->primeiro->prox;
+
+	while(aux != l->primeiro){
+		insere_fim(copia, aux->item);
+		aux = aux->prox;
+	}
+}
+
+void copiar_ordenado(lista* l, lista* copia){ //exercício 9 - LISTA PROVA
+	lista buffer;
+	item retorno;
+	
+	inicializa(&buffer);
+	copiar(l, &buffer);
+	while(!vazia(&buffer)){
+        remove_chave(&buffer, menor_chave(&buffer), &retorno);
+		insere_fim(copia, retorno);
+	}
+}
+
+void concatenar(lista* A, lista* B, lista* concat){ //exercício 10 - LISTA PROVA
+	celula *aux = B->primeiro->prox;
+
+	copiar(A, concat);
+	while(aux != B->primeiro){
+		insere_fim(concat, aux->item);
+		aux = aux->prox;
+	}
+}
+
+void merge(lista* L1, lista* L2, lista* L3){ //exercício 11 - LISTA PROVA
+	lista buffer;
+	item retorno;
+
+	inicializa(&buffer);
+	concatenar(L1, L2, &buffer);
+	while(!vazia(&buffer)){
+		remove_chave(&buffer, menor_chave(&buffer), &retorno);
+		insere_fim(L3, retorno);
+	}
+}
+
 void clear_screen(){
-	system("cls");
+	system("clear");
 }
 
 void pause_screen(){
-	system("pause");
+	//system("pause");
 	cout << endl;
 }
 
 int main(){
-	lista A;
+	lista A, B, C;
 	int opt, pos, _busca;
 	celula *search;
 	item insere, removido;
 
+	inicializa(&A);
+	inicializa(&B);
+	inicializa(&C);
 	do{
 		fflush(stdin);
-		clear_screen();
-		cout << "[01] Inicializar lista" << endl;
+		//clear_screen();
+		cout << "[01] Inserir no fim em B" << endl;
 		cout << "[02] Verificar se a lista esta vazia" << endl;
 		cout << "[03] Inserir elemento no inicio" << endl;
 		cout << "[04] Inserir elemento no fim" << endl;
@@ -192,12 +301,24 @@ int main(){
 		cout << "[10] Buscar chave" << endl;
 		cout << "[11] Rotacionar a direita" << endl;
 		cout << "[12] Tamanho da lista" << endl;
+		cout << "[13] Crescente?" << endl;
+		cout << "[14] Maior chave" << endl;
+		cout << "[15] Menor chave" << endl;
+		cout << "[16] Soma chaves" << endl;
+		cout << "[17] Media da lista" << endl;
+		cout << "[18] Copiar lista" << endl;
+		cout << "[19] Copiar ordenado" << endl;
+		cout << "[20] Concatenar" << endl;
+		cout << "[21] Merge" << endl;
 		cin >> opt;
 
 		switch(opt){
 			case 1:
-				inicializa(&A);
-				cout << "LISTA INICIALIZADA!" << endl;
+				clear_screen();
+				cout << "Digite o elemento que deseja inserir: ";
+				cin >> insere.chave;
+				insere_fim(&B, insere);
+				cout << "ELEMENTO INSERIDO COM SUCESSO" << endl;
 				pause_screen();
 			break;
 
@@ -295,6 +416,59 @@ int main(){
 
 			case 12:
 				cout << "Tamanho da Lista: " << tamanho_lista(&A) << endl;
+				pause_screen();
+			break;
+
+			case 13:
+				cout << crescente(&A) << endl;
+				pause_screen();
+			break;
+
+			case 14:
+				cout << maior_chave(&A) << endl;
+				pause_screen();
+			break;
+
+			case 15:
+				cout << menor_chave(&A) << endl;
+				pause_screen();
+			break;
+
+			case 16:
+				cout << soma_lista(&A) << endl;
+				pause_screen();
+			break;
+
+			case 17:
+				cout << media(&A) << endl;
+				pause_screen();
+			break;
+
+			case 18:
+				copiar(&A, &B);
+				print_lista(&B);
+				pause_screen();
+			break;
+
+			case 19:
+				copiar_ordenado(&A, &B);
+				cout << "Lista A: ";
+				print_lista(&A);
+				cout << "Copia ordenada: ";
+				print_lista(&B);
+				pause_screen();
+			break;
+
+			case 20:
+				concatenar(&A, &B, &C);
+				print_lista(&C);
+				pause_screen();
+			break;
+
+			case 21:
+				merge(&A, &B, &C);
+				cout << "MERGE: ";
+				print_lista(&C);
 				pause_screen();
 			break;
 		}
