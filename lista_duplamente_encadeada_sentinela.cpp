@@ -268,6 +268,19 @@ void merge(lista* L1, lista* L2, lista* L3){ //exercício 11 - LISTA PROVA
 	}
 }
 
+int filtra_lista(lista* l, int filtro){ //exercício 13 - LISTA PROVA
+	celula *aux = busca(l, filtro);
+	item retorno;
+	int flag = 0;
+
+	while(aux != NULL){
+		remove_chave(l, aux->item.chave, &retorno);
+		aux = busca(l, filtro);
+		flag = 1;
+	}
+	return flag;
+}
+
 void clear_screen(){
 	system("clear");
 }
@@ -310,6 +323,7 @@ int main(){
 		cout << "[19] Copiar ordenado" << endl;
 		cout << "[20] Concatenar" << endl;
 		cout << "[21] Merge" << endl;
+		cout << "[22] Filtrar lista" << endl;
 		cin >> opt;
 
 		switch(opt){
@@ -469,6 +483,16 @@ int main(){
 				merge(&A, &B, &C);
 				cout << "MERGE: ";
 				print_lista(&C);
+				pause_screen();
+			break;
+
+			case 22:
+				clear_screen();
+				cout << "Digite  o elemento a ser filtrado: ";
+				cin >> pos;
+				if(filtra_lista(&A, pos))
+					cout << "LISTA FILTRADA" << endl;
+				else cout << "NENHUM ELEMENTO " << pos << " ENCONTRADO" << endl;
 				pause_screen();
 			break;
 		}
