@@ -235,17 +235,14 @@ void copiar(lista* l, lista* copia){ //exercício 8 - LISTA PROVA
 }
 
 void copiar_ordenado(lista* l, lista* copia){ //exercício 9 - LISTA PROVA
-	celula *aux;
 	lista buffer;
-	item insere, retorno;
+	item retorno;
 	
 	inicializa(&buffer);
 	copiar(l, &buffer);
-	aux = buffer.primeiro->prox;
-	while(aux != buffer.primeiro){
-		insere.chave = menor_chave(l);
-		insere_fim(copia, insere);
-		remove_chave(&buffer, insere.chave, &retorno);
+	while(!vazia(&buffer)){
+        remove_chave(&buffer, menor_chave(&buffer), &retorno);
+		insere_fim(copia, retorno);
 	}
 }
 
