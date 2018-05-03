@@ -130,6 +130,21 @@ int insere_ordenado(lista* l, item x){ //exercício 5
 	return 0;
 }
 
+int busca_binaria(lista* l, int chave){
+	int e = 0, d = l->tam -1, m = (e+d)/2;
+
+	while(e<=d){
+		if(l->dados[m].chave == chave)
+			return m;
+		else if(l->dados[m].chave > chave)
+			d = m-1;
+		else
+			e = m+1;
+		m = (e+d)/2;
+	}
+	return -1;
+}
+
 int main(){
 	lista chiforinfola;
 	item i;
