@@ -125,6 +125,7 @@ int remove_pos(lista* l, int pos, item* retorno){ //exercício 3
 	if(!vazia(l)){
 		while(aux != l->primeiro && cont < pos){
 			aux = aux->prox;
+			cont++;
 		}
 		if(cont == pos){
 			aux->ant->prox = aux->prox;
