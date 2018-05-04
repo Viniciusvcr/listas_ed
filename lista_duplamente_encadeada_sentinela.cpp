@@ -310,7 +310,7 @@ int remove_repetidos(lista* l){ //exercício 14 - LISTA PROVA
 	return flag;
 }
 
-void separa_lista(lista* l, lista* L1, lista* L2, int n){
+void separa_lista(lista* l, lista* L1, lista* L2, int n){ //exercício 15 - LISTA PROVA
 	item retorno;
 
 	copiar(l, L1);
