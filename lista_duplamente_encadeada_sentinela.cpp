@@ -132,6 +132,7 @@ int remove_pos(lista* l, int pos, item* retorno){ //exercício 3
 	if(!vazia(l)){
 		while(aux != l->primeiro && cont < pos){
 			aux = aux->prox;
+			cont++;
 		}
 		if(cont == pos){
 			aux->ant->prox = aux->prox;
@@ -309,6 +310,19 @@ int remove_repetidos(lista* l){ //exercício 14 - LISTA PROVA
 	return flag;
 }
 
+void separa_lista(lista* l, lista* L1, lista* L2, int n){
+	item retorno;
+
+	copiar(l, L1);
+	if(n < tamanho_lista(l)){
+		for(int i=n+1; i<=tamanho_lista(L1); i++){
+			remove_pos(L1, i-1, &retorno);
+			insere_fim(L2, retorno);
+			i = i-1;
+		}
+	}
+}
+
 void clear_screen(){
 	system("clear");
 }
@@ -353,6 +367,7 @@ int main(){
 		cout << "[21] Merge" << endl;
 		cout << "[22] Filtrar lista" << endl;
 		cout << "[23] Remove repetidos" << endl;
+		cout << "[24] Separa lista" << endl;
 		cin >> opt;
 
 		switch(opt){
@@ -529,6 +544,20 @@ int main(){
 				if(remove_repetidos(&A))
 					cout << "ELEMENTOS REPETIDOS REMOVIDOS" << endl;
 				else cout << "NAO HA ELEMENTOS REPETIDOS" << endl;
+				pause_screen();
+			break;
+
+			case 24:
+				clear_screen();
+				cout << "Posicao: ";
+				cin >> pos;
+				separa_lista(&A, &B, &C, pos);
+				cout << "LISTA ORIGINAL: ";
+				print_lista(&A);
+				cout << "LISTA L1: ";
+				print_lista(&B);
+				cout << "LISTA L2: ";
+				print_lista(&C);
 				pause_screen();
 			break;
 		}
