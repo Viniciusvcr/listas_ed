@@ -118,6 +118,13 @@ int remove_chave(lista* l, int chave, item* retorno){
 	return 1;
 }
 
+int remove_ptr(lista* l, celula* del){
+	del->ant->prox = del->prox;
+	del->prox->ant = del->ant;
+	free(del);
+	return 1;
+}
+
 int remove_pos(lista* l, int pos, item* retorno){ //exercício 3
 	celula *aux = l->primeiro->prox;
 	int cont = 0;
@@ -281,6 +288,27 @@ int filtra_lista(lista* l, int filtro){ //exercício 13 - LISTA PROVA
 	return flag;
 }
 
+int remove_repetidos(lista* l){ //exercício 14 - LISTA PROVA
+	celula *atual = l->primeiro->prox;
+	celula *repetido;
+	int flag = 0;
+
+	while(atual != l->primeiro){
+		repetido = atual->prox;
+		while(repetido != atual){
+			if(repetido->item.chave == atual->item.chave){
+				remove_ptr(l, repetido); //função criada especialmente para essa função
+				flag = 1;
+			}
+			repetido = repetido->prox;
+			if(repetido == l->primeiro)
+				repetido = repetido->prox;
+		}
+		atual = atual->prox;
+	}
+	return flag;
+}
+
 void clear_screen(){
 	system("clear");
 }
@@ -324,6 +352,7 @@ int main(){
 		cout << "[20] Concatenar" << endl;
 		cout << "[21] Merge" << endl;
 		cout << "[22] Filtrar lista" << endl;
+		cout << "[23] Remove repetidos" << endl;
 		cin >> opt;
 
 		switch(opt){
@@ -493,6 +522,13 @@ int main(){
 				if(filtra_lista(&A, pos))
 					cout << "LISTA FILTRADA" << endl;
 				else cout << "NENHUM ELEMENTO " << pos << " ENCONTRADO" << endl;
+				pause_screen();
+			break;
+
+			case 23:
+				if(remove_repetidos(&A))
+					cout << "ELEMENTOS REPETIDOS REMOVIDOS" << endl;
+				else cout << "NAO HA ELEMENTOS REPETIDOS" << endl;
 				pause_screen();
 			break;
 		}
