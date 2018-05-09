@@ -227,6 +227,46 @@ int soma_lista(lista* l){ //exercício 5 - LISTA PROVA
 	return soma; 
 }
 
+int trocar(celula* P, celula* Q){ //exercício 6 - LISTA PROVA
+	celula *proxP = P->prox;
+	celula *proxQ = Q->prox;
+	celula *antP = P->ant;
+	celula *antQ = Q->ant;
+
+	if(P == Q)
+		return 1;
+
+	if(proxP == Q){
+		P->prox = proxQ;
+		P->ant = Q;
+		Q->prox = P;
+		Q->ant = antP;
+		proxQ->ant = P;
+		antP->prox = Q;
+		return 1;
+	}
+
+	if(proxQ == P){
+		Q->prox = proxP;
+		Q->ant = P;
+		P->prox = Q;
+		P->ant = antQ;
+		proxP->ant = Q;
+		antQ->prox = P;
+		return 1;
+	}
+
+	P->prox = proxQ;
+	P->ant = antQ;
+	proxQ->ant = P;
+	Q->prox = proxP;
+	Q->ant = antP;
+	proxP->ant = Q;
+	antP->prox = Q;
+	antQ->prox = P;
+	return 1;
+}
+
 float media(lista* l){ //exercício 7 - LISTA PROVA
 	float soma = soma_lista(l);
 	float tam = tamanho_lista(l);
@@ -335,7 +375,7 @@ void pause_screen(){
 int main(){
 	lista A, B, C;
 	int opt, pos, _busca;
-	celula *search;
+	celula *search, *P, *Q;
 	item insere, removido;
 
 	inicializa(&A);
@@ -368,6 +408,7 @@ int main(){
 		cout << "[22] Filtrar lista" << endl;
 		cout << "[23] Remove repetidos" << endl;
 		cout << "[24] Separa lista" << endl;
+		cout << "[25] Troca celula" << endl;
 		cin >> opt;
 
 		switch(opt){
@@ -560,6 +601,18 @@ int main(){
 				print_lista(&C);
 				pause_screen();
 			break;
+
+			case 25:
+				clear_screen();
+				cout << "Insira um elemento: ";
+				cin >> _busca;
+				P = busca(&A, _busca);
+				cout << "Insira outro elemento: ";
+				cin >> _busca;
+				Q = busca(&A, _busca);
+				trocar(P, Q);
+			break;
+
 		}
 	}while(opt != 0);
 }
